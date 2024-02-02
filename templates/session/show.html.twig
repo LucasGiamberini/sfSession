@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session {% endblock %}
+
+{% block body %}
+<H1> {{ session.intitule  }}</H1>
+
+<p> Formateur:<a>{{formateur.prenom}} {{formateur.nom  }}</a></p>
+
+
+<H2> Programme </H2>
+
+<div class="row">
+    <div class="col-sm">
+       Module
+    </div>
+    <div class="col-sm">
+      nb Jour
+    </div>
+</div>
+
+{% for programme in programmes %}
+{{programme.module.idCategorie.nomCategorie}}
+{#{{ dump(programme.module.idCategorie.nomCategorie) }}  dump pour voir le chemin #}
+<div class="row">
+    <div class="col-sm">
+        {{ programme.module.nomModule}}
+    </div>
+    <div class="col-sm">
+        {{ programme.nbJours}}
+    </div>
+</div> 
+
+ 
+{% endfor %}
+
+{% endblock %}

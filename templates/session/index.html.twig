@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Session Disponible{% endblock %}
+
+{% block body %}
+<H1> Sessions Disponible</H1>
+
+{% for session in  sessions %}
+
+<a href="{{ path('show_session' , {'id':session.id}) }}">{{ session.intitule  }}</a>
+{{session.dateDebutFormat}} {{session.dateFinFormat}} {{session.nbPlaceFormat}}{{session.stagiaires|length}}
+{% set totalLibre = session.nbPlace - session.stagiaires|length %}{{totalLibre}}
+{%  endfor   %}
+
+
+{% endblock %}

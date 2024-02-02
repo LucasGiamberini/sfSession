@@ -16,14 +16,14 @@ class Formation
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $intituleFormation = null;
+    private ?string $intutituleFormation = null;
 
-    #[ORM\OneToMany(mappedBy: 'idFormation', targetEntity: Sessions::class, orphanRemoval: true)]
-    private Collection $idSession;
+    #[ORM\OneToMany(mappedBy: 'formation', targetEntity: Session::class, orphanRemoval: true)]
+    private Collection $formation;
 
     public function __construct()
     {
-        $this->idSession = new ArrayCollection();
+        $this->formation = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -31,42 +31,42 @@ class Formation
         return $this->id;
     }
 
-    public function getIntituleFormation(): ?string
+    public function getIntutituleFormation(): ?string
     {
-        return $this->intituleFormation;
+        return $this->intutituleFormation;
     }
 
-    public function setIntituleFormation(string $intituleFormation): static
+    public function setIntutituleFormation(string $intutituleFormation): static
     {
-        $this->intituleFormation = $intituleFormation;
+        $this->intutituleFormation = $intutituleFormation;
 
         return $this;
     }
 
     /**
-     * @return Collection<int, Sessions>
+     * @return Collection<int, Session>
      */
-    public function getIdSession(): Collection
+    public function getFormation(): Collection
     {
-        return $this->idSession;
+        return $this->formation;
     }
 
-    public function addIdSession(Sessions $idSession): static
+    public function addFormation(Session $formation): static
     {
-        if (!$this->idSession->contains($idSession)) {
-            $this->idSession->add($idSession);
-            $idSession->setIdFormation($this);
+        if (!$this->formation->contains($formation)) {
+            $this->formation->add($formation);
+            $formation->setFormation($this);
         }
 
         return $this;
     }
 
-    public function removeIdSession(Sessions $idSession): static
+    public function removeFormation(Session $formation): static
     {
-        if ($this->idSession->removeElement($idSession)) {
+        if ($this->formation->removeElement($formation)) {
             // set the owning side to null (unless already changed)
-            if ($idSession->getIdFormation() === $this) {
-                $idSession->setIdFormation(null);
+            if ($formation->getFormation() === $this) {
+                $formation->setFormation(null);
             }
         }
 

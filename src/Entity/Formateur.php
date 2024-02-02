@@ -15,25 +15,21 @@ class Formateur
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 50)]
     private ?string $prenom = null;
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
-    #[ORM\OneToMany(mappedBy: 'id_formateur', targetEntity: Sessions::class)]
-    private Collection $id_formation;
-
-    #[ORM\OneToMany(mappedBy: 'idFormateur', targetEntity: Sessions::class, orphanRemoval: true)]
-    private Collection $idSession;
+    #[ORM\OneToMany(mappedBy: 'formateur', targetEntity: Session::class)]
+    private Collection $formateur;
 
     public function __construct()
     {
-        $this->id_formation = new ArrayCollection();
-        $this->idSession = new ArrayCollection();
+        $this->formateur = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -78,34 +74,32 @@ class Formateur
     }
 
     /**
-     * @return Collection<int, Sessions>
+     * @return Collection<int, Session>
      */
-    public function getIdSession(): Collection
+    public function getFormateur(): Collection
     {
-        return $this->idSession;
+        return $this->formateur;
     }
 
-    public function addIdSession(Sessions $idSession): static
+    public function addFormateur(Session $formateur): static
     {
-        if (!$this->idSession->contains($idSession)) {
-            $this->idSession->add($idSession);
-            $idSession->setIdFormateur($this);
+        if (!$this->formateur->contains($formateur)) {
+            $this->formateur->add($formateur);
+            $formateur->setFormateur($this);
         }
 
         return $this;
     }
 
-    public function removeIdSession(Sessions $idSession): static
+    public function removeFormateur(Session $formateur): static
     {
-        if ($this->idSession->removeElement($idSession)) {
+        if ($this->formateur->removeElement($formateur)) {
             // set the owning side to null (unless already changed)
-            if ($idSession->getIdFormateur() === $this) {
-                $idSession->setIdFormateur(null);
+            if ($formateur->getFormateur() === $this) {
+                $formateur->setFormateur(null);
             }
         }
 
         return $this;
     }
-
-
 }
