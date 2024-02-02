@@ -15,7 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class SessionController extends AbstractController
 {
     #[Route('/session', name: 'app_session')]
-    public function index(SessionRepository $sessionRepository , ): Response
+    public function index(SessionRepository $sessionRepository  ): Response
     {   
 
 
