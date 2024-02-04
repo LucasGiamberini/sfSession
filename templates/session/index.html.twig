@@ -9,7 +9,7 @@
 {{ dump (session.stagiaires)}}
 <a href="{{ path('show_session' , {'id':session.id}) }}">{{ session.intitule  }}</a>
 {{session.dateDebutFormat}} {{session.dateFinFormat}} {{session.nbPlaceFormat}}{{session.stagiaires|length}}
-{% set totalLibre = session.nbPlace - session.stagiaires|length %}{{totalLibre}}
+{% set totalLibre = session.nbPlace - session.stagiaires|length %}{{totalLibre}}{{ dump(session.stagiaires) }}
 
 {%  endfor   %}
 

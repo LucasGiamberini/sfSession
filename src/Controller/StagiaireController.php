@@ -23,16 +23,17 @@ class StagiaireController extends AbstractController
 
 
     #[Route('/stagiaire/{id}/show ' , name:'show_stagiaire')]
-    public function show ( Stagiaire $stagiaire, SessionRepository $sessionRepo,Session $session): Response
+    public function show ( Stagiaire $stagiaire,StagiaireRepository $stagiairesRepository, SessionRepository  $sessionRepository): Response
     {   
-        $idStagiaire=$stagiaire->getId();
+      //  $idStagiaire=$stagiaire->getId();
        
-      
-       $sessionSub=$session->getStagiaires(['sessions' => "$idStagiaire"]);
-       
+   //   var_dump($sessionRepo->findby(['stagiaires' => "$stagiaire" ])); die();
+   //    $sessionSub=$sessionRepo->findBy(['stagiaires' => "$stagiaire"]);
+   //$session= $sessionRepository->findBy(["stagiaires" => "$stagiairesRepository"],["intitule"=> "ASC"]);
+//   $session=$sessionRepository->findBy(['stagiaires' => "$stagiaire"]);
         return $this->render('stagiaire/show.html.twig', [
             'stagiaire'=> $stagiaire, 
-            'session'=> $sessionSub
+  //          'session'=>  $session
         ]);
     }
 }

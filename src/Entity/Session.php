@@ -162,7 +162,7 @@ class Session
     }
 
     /**
-     * @return Collection<int, Stagiaires>
+     * @return Collection<int, Stagiaire>
      */
     public function getStagiaires(): Collection
     {
@@ -173,7 +173,7 @@ class Session
     {
         if (!$this->stagiaires->contains($stagiaire)) {
             $this->stagiaires->add($stagiaire);
-           
+            
         }
 
         return $this;
