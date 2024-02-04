@@ -2,10 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\StagiaireRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Session;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\StagiaireRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: StagiaireRepository::class)]
 class Stagiaire
@@ -35,6 +37,9 @@ class Stagiaire
 
     #[ORM\ManyToMany(targetEntity: Session::class, mappedBy: 'stagiaires')]
     private Collection $sessions;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $DateNaissance = null;
 
     public function __construct()
     {
@@ -144,4 +149,36 @@ class Stagiaire
 
         return $this;
     }
+
+    public function __toString(){
+        return $this->nom ." " . $this->prenom;
+    }
+
+    public function getDateNaissance(): ?\DateTimeInterface
+    {
+        return $this->DateNaissance;
+    }
+
+    public function setDateNaissance(?\DateTimeInterface $DateNaissance): static
+    {
+        $this->DateNaissance = $DateNaissance;
+
+        return $this;
+    }
+
+    public function getAge (): ?string
+    {   $now= new \DateTime();
+        $age= $this->DateNaissance->diff($now);
+        return $age->format("%Y");
+    }
+
+    public function getDateNaissanceFormat(): ?string
+    {
+        return $this->DateNaissance->format("d/m/Y");
+    }
+
+
+
+
+
 }

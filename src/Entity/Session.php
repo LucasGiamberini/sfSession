@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\SessionRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\Formation;
+use App\Entity\Stagiaire;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\SessionRepository;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 
 #[ORM\Entity(repositoryClass: SessionRepository::class)]
 class Session
@@ -160,7 +162,7 @@ class Session
     }
 
     /**
-     * @return Collection<int, Stagiaire>
+     * @return Collection<int, Stagiaires>
      */
     public function getStagiaires(): Collection
     {
@@ -171,6 +173,7 @@ class Session
     {
         if (!$this->stagiaires->contains($stagiaire)) {
             $this->stagiaires->add($stagiaire);
+           
         }
 
         return $this;

@@ -4,12 +4,13 @@
 
 {% block body %}
 <H1> Sessions Disponible</H1>
-
+{{ dump (sessions)}}
 {% for session in  sessions %}
-
+{{ dump (session.stagiaires)}}
 <a href="{{ path('show_session' , {'id':session.id}) }}">{{ session.intitule  }}</a>
 {{session.dateDebutFormat}} {{session.dateFinFormat}} {{session.nbPlaceFormat}}{{session.stagiaires|length}}
 {% set totalLibre = session.nbPlace - session.stagiaires|length %}{{totalLibre}}
+
 {%  endfor   %}
 
 
