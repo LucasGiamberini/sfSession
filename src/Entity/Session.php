@@ -201,4 +201,11 @@ class Session
     public function __tostring(){
         return $this-> id ; 
     }
+
+
+    public function findByStagiairesNotInSession(int $id)
+    {
+        $em = $this->getEntityManager(); // get the EntityManager
+        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
+    }
 }

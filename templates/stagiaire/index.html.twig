@@ -8,6 +8,7 @@
     <a href="{{path('new_stagiaire')}}">S'inscrire</a>
 {% for stagiaire in stagiaires %}
 <a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}"> {{stagiaire.nom}} {{stagiaire.prenom}}</a>
+<a href="{{ path('addSession_stagiaire', {'id':stagiaire.id})}}"> Ajouter a une session</a>
 {% endfor %}
    
 

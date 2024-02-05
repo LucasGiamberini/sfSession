@@ -24,10 +24,10 @@ class AjoutStagiaireType extends AbstractType
             ->add('telephone')
             ->add('DateNaissance',DateType::class,
             [ 'widget' => 'single_text']) 
-            ->add('sessions', EntityType::class, [
-                'class' => Session::class,
-                'choice_label' => 'intitule',
-            ])
+     //      ->add('sessions', EntityType::class, [
+       //         'class' => Session::class,
+         //       'choice_label' => 'intitule',
+          //  ])
             ->add('Valider' , SubmitType::class,
               ['attr'=> ['class' => 'btn btn-success']]) 
             ;

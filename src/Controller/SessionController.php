@@ -7,6 +7,7 @@ use App\Entity\Formateur;
 use App\Entity\Programme;
 use App\Entity\Stagiaire;
 use App\Form\AjoutSessionType;
+use App\Controller\SessionController;
 use App\Repository\SessionRepository;
 use App\Repository\ProgrammeRepository;
 use App\Repository\StagiaireRepository;
@@ -50,17 +51,49 @@ class SessionController extends AbstractController
         return $this->render('session/new.html.twig', [ 'formAdd' => $form]);
     }
 
-    #[Route('/session/{id} ' , name:'show_session')]
-    public function show (Session $session, ProgrammeRepository $programme, StagiaireRepository $Stagiaire): Response
-    {   
-
+    #[Route('/session/{id}/show ' , name:'show_session')]
+    public function show (Session $session, ProgrammeRepository $programme, StagiaireRepository $stagiairesRepository): Response
+    {   $id=$session->getId();
+        
+       // $stagiaireNonInscrit= $session->findByStagiairesNotInSession($id);
       //  $resultatStagiaire=$Stagiaire->findBy(['sessions' => "$session"]);
         $resultatProgramme=$programme->findBy(['session' => "$session"] );
-        
+        $stagiaire= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
         return $this->render('session/show.html.twig', [
             'session'=> $session, 
             'programmes' => $resultatProgramme,
-            
+            'stagiaires' => $stagiaire, 
+       //     'stagiaireNonInscrit' => $stagiaireNonInscrit
         ]);
+    }
+
+    #[Route('/session/{id} ' , name:'addStagiaire_session')]
+    public function addStagiaire( Stagiaire $stagiaire,Session $session,ProgrammeRepository $programme, StagiaireRepository $stagiairesRepository){
+       $idStagiaire=$_GET["idStagiaire"];
+        $idsession=$session->getId();
+        $objectStagiaire=$stagiairesRepository->findBy(["id" => $idStagiaire]);
+        var_dump($objectStagiaire);
+        echo $idsession ; die();
+       
+        $session->addStagiaire($stagiaire);
+       $stagiaire->addSession($session);
+       
+       
+
+
+
+       $resultatProgramme=$programme->findBy(['session' => "$session"] );
+        $stagiaire= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
+       return $this->render('session/show.html.twig', [
+        'session'=> $session, 
+        'programmes' => $resultatProgramme,
+        'stagiaires' => $stagiaire 
+    ]);
+    }
+
+    public function findByStagiairesNotInSession(int $id)
+    {
+        $em = $this->getEntityManager(); // get the EntityManager
+        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
     }
 }

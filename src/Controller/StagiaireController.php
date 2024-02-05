@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Session;
 use App\Entity\Stagiaire;
 use App\Form\AjoutStagiaireType;
+use App\Form\AddStagiaireSessionType;
 use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,6 +23,32 @@ class StagiaireController extends AbstractController
         return $this->render('stagiaire/index.html.twig', [
             'stagiaires' => $stagiaire ,
         ]);
+    }
+
+    #[Route('/stagiaire/{id}/addSession ' , name:'addSession_stagiaire')]
+    public function addStagiaire( Stagiaire $stagiaire, Request $request ,EntityManagerInterface $entityManager,Session $sessions ): Response
+    {
+        
+        $form=$this->createForm(AddStagiaireSessionType::class,$sessions);
+
+       $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+
+            $session = $form->getData();// recueille les donner du formulaire
+
+            $stagiaire->addSession($session); //prepare les donner
+
+           
+     
+
+            return $this->redirectToRoute('app_stagiaire');
+
+        }
+        
+        
+        return $this->render('stagiaire/addSession.html.twig', [ 'formAdd' => $form]);
     }
 
 
@@ -63,4 +90,6 @@ class StagiaireController extends AbstractController
   //          'session'=>  $session
         ]);
     }
+
+  
 }

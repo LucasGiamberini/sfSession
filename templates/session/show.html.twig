@@ -36,6 +36,12 @@
  
 {% endfor %}
 
-<h3>Stagiaire</h3>
+<h3>Stagiaire inscrit</h3>
+{# {{stagiaireNonInscrit}} #}
 
+
+<h3>Stagiaire non inscrit</h3>
+{% for stagiaires in stagiaires %}
+    {{stagiaires}} <a href="{{ path('addStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaires.id}) }}">Ajouter a la sessions</a><br>
+{% endfor %}
 {% endblock %}
