@@ -5,6 +5,7 @@
 {% block body %}
 
     <h1>Liste des stagiaires</h1>
+    <a href="{{path('new_stagiaire')}}">S'inscrire</a>
 {% for stagiaire in stagiaires %}
 <a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}"> {{stagiaire.nom}} {{stagiaire.prenom}}</a>
 {% endfor %}

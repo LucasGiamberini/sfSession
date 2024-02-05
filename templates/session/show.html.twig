@@ -4,10 +4,10 @@
 
 {% block body %}
 <H1> {{ session.intitule  }}</H1>
-
-<p> Formateur:<a>{{formateur.prenom}} {{formateur.nom  }}</a></p>
-
 {{dump (session)}}
+{#<p> Formateur:<a>{{formateur.prenom}} {{formateur.nom  }}</a></p>#}
+{{session.formateur  }}
+
 <H2> Programme </H2>
 
 <div class="row">
@@ -18,14 +18,15 @@
       nb Jour
     </div>
 </div>
-
+{{dump (programmes)}}
 {% for programme in programmes %}
-{{programme.module.idCategorie.nomCategorie}}
-{#{{ dump(programme.module.idCategorie.nomCategorie) }}  dump pour voir le chemin #}
+
+{# {{programme.module.idCategorie.nomCategorie}} #}
+ 
 <div class="row">
     <div class="col-sm">
         {{ programme.module.nomModule}}
-        {{dump (programme)}}
+      
     </div>
     <div class="col-sm">
         {{ programme.nbJours}}
@@ -34,5 +35,7 @@
 
  
 {% endfor %}
+
+<h3>Stagiaire</h3>
 
 {% endblock %}

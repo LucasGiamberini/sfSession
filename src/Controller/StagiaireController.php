@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Session;
 use App\Entity\Stagiaire;
+use App\Form\AjoutStagiaireType;
 use App\Repository\SessionRepository;
 use App\Repository\StagiaireRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +22,30 @@ class StagiaireController extends AbstractController
         return $this->render('stagiaire/index.html.twig', [
             'stagiaires' => $stagiaire ,
         ]);
+    }
+
+
+    #[Route('/stagiaire/new', name:'new_stagiaire')]
+    public function new(Stagiaire $stagiaire=NULL ,Request $request,EntityManagerInterface $entityManager  ): Response
+    {
+        $form=$this->createForm(AjoutStagiaireType::class,$stagiaire);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+           
+            $session = $form->getData();// recueille les donner du formulaire
+
+            $entityManager->persist($session); //prepare les donner
+
+           
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_stagiaire');
+
+        }
+
+        return $this->render('stagiaire/new.html.twig', [ 'formAdd' => $form]);
     }
 
 

@@ -127,7 +127,7 @@ class Stagiaire
      */
     public function getSessions(): Collection
     {
-        return $this->session;
+        return $this->sessions;
     }
 
     public function addSession(Session $session): static
@@ -142,7 +142,7 @@ class Stagiaire
     public function removeSession(Session $session): static
     {
         if ($this->sessions->removeElement($session)) {
-            $session->removeStagiaire($this);
+            $sessions->removeStagiaire($this);
         }
 
         return $this;
