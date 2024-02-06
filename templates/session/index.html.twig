@@ -6,13 +6,26 @@
 <H1> Sessions Disponible</H1>
 <a href="{{path('new_session')}}">Ajouter session</a>
 
+
+<table>
+    <thead>
+        <tr>
+          <th scope="col">Intitule Session</th>
+          <th scope="col">Date de debut</th>
+          <th scope="col">Date de fin</th>
+          <th scope="col">Nb Place </th>
+          <th scope="col">Nombre place reservées</th>
+          <th scope="col">Nombre place Restante</th>
+          
+        </tr>
+    </thead>
 {% for session in  sessions %}
 
-<a href="{{ path('show_session' , {'id':session.id}) }}">{{ session.intitule  }}</a>
-{{session.dateDebutFormat}} {{session.dateFinFormat}} {{session.nbPlaceFormat}}{{session.stagiaires|length}}
-{% set totalLibre = session.nbPlace - session.stagiaires|length %}{{totalLibre}}
+<tr><td><a href="{{ path('show_session' , {'id':session.id}) }}">{{ session.intitule  }}</a></td>
+<td>{{session.dateDebutFormat}}</td><td> {{session.dateFinFormat}}</td><td>{{session.nbPlaceFormat}}</td> <td>{{session.stagiaires|length}}</td>
+{% set totalLibre = session.nbPlace - session.stagiaires|length %}<td>{{totalLibre}}</td></tr><br>
 
 {%  endfor   %}
-
+</table>
 
 {% endblock %}

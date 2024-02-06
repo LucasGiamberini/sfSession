@@ -142,7 +142,7 @@ class Stagiaire
     public function removeSession(Session $session): static
     {
         if ($this->sessions->removeElement($session)) {
-            $sessions->removeStagiaire($this);
+            $session->removeStagiaire($this);
         }
 
         return $this;

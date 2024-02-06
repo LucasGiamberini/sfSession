@@ -203,9 +203,5 @@ class Session
     }
 
 
-    public function findByStagiairesNotInSession(int $id)
-    {
-        $em = $this->getEntityManager(); // get the EntityManager
-        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
-    }
+  
 }

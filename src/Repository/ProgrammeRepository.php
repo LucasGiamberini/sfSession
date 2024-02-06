@@ -20,7 +20,27 @@ class ProgrammeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Programme::class);
     }
+    
+    public function findByCategory( int $id){
 
+        $em = $this->getEntityManager(); // get the EntityManager
+        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
+
+        $qb=$sub;
+
+        $qb ->select('s') 
+            ->from('APP\Entity\Programme', 's')
+            
+            ->innerJoin('s.module', 'mo')
+            ->innerJoin('mo.id_categorie', 'ca')
+            ->where ('s.id = :id')
+            ->setParameter('id', $id);
+           
+
+            return $qb->getQuery()->getResult();    
+
+
+    }
 //    /**
 //     * @return Programme[] Returns an array of Programme objects
 //     */

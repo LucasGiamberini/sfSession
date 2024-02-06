@@ -11,16 +11,17 @@ Sexe: {{stagiaire.sexe}}<br>
 Ville: {{stagiaire.ville}}<br>
 Numero de telephone: {{stagiaire.telephone}}<br>
 E-mail : {{stagiaire.email}}<br>
-{{ dump (stagiaire)}}
 
 
 
 
-<h3>Session prevu</h3>
 
-{#{% for session in sessions %}
-    {{session.nom}}
-{% endfor %}
-#}
- 
+<h3>Session prévues</h3>
+
+{% for session in sessions %}
+  
+   
+   <strong>{{session.intitule}}</strong>  (du {{session.dateDebutFormat}} au {{session.dateFinFormat}}    )
+{% endfor %} 
+
 {% endblock %}

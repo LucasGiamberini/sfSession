@@ -80,14 +80,14 @@ class StagiaireController extends AbstractController
     public function show ( Stagiaire $stagiaire,StagiaireRepository $stagiairesRepository, SessionRepository  $sessionRepository): Response
     {   
       //  $idStagiaire=$stagiaire->getId();
-       
+       $session = $stagiaire->getSessions();
    //   var_dump($sessionRepo->findby(['stagiaires' => "$stagiaire" ])); die();
    //    $sessionSub=$sessionRepo->findBy(['stagiaires' => "$stagiaire"]);
    //$session= $sessionRepository->findBy(["stagiaires" => "$stagiairesRepository"],["intitule"=> "ASC"]);
 //   $session=$sessionRepository->findBy(['stagiaires' => "$stagiaire"]);
         return $this->render('stagiaire/show.html.twig', [
             'stagiaire'=> $stagiaire, 
-  //          'session'=>  $session
+          'sessions'=>  $session
         ]);
     }
 

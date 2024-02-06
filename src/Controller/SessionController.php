@@ -11,6 +11,7 @@ use App\Controller\SessionController;
 use App\Repository\SessionRepository;
 use App\Repository\ProgrammeRepository;
 use App\Repository\StagiaireRepository;
+use App\Repository\FormModuleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -52,48 +53,78 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/{id}/show ' , name:'show_session')]
-    public function show (Session $session, ProgrammeRepository $programme, StagiaireRepository $stagiairesRepository): Response
+    public function show ( SessionRepository $SessionRepository,Session $session, ProgrammeRepository $programmeRepository,Programme $programme, FormModuleRepository $module, StagiaireRepository $stagiairesRepository): Response
     {   $id=$session->getId();
+        $stagiaireNonInscrits= $SessionRepository->findByStagiairesNotInSession($id);
+
+      //  $categorieProgramme=$module->findby(['categorie_id' => "$idCategorie"]);
+        $resultatProgramme=$programmeRepository->findBy(['session' => "$session"] );
+       $categorie=$programmeRepository->findByCategory($id);
         
-       // $stagiaireNonInscrit= $session->findByStagiairesNotInSession($id);
-      //  $resultatStagiaire=$Stagiaire->findBy(['sessions' => "$session"]);
-        $resultatProgramme=$programme->findBy(['session' => "$session"] );
+       dd($categorie);
+     
+        
         $stagiaire= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
         return $this->render('session/show.html.twig', [
             'session'=> $session, 
             'programmes' => $resultatProgramme,
             'stagiaires' => $stagiaire, 
-       //     'stagiaireNonInscrit' => $stagiaireNonInscrit
+           'stagiaireNonInscrits' => $stagiaireNonInscrits,
+            'categories' => $categorie
         ]);
     }
 
-    #[Route('/session/{id} ' , name:'addStagiaire_session')]
-    public function addStagiaire( Stagiaire $stagiaire,Session $session,ProgrammeRepository $programme, StagiaireRepository $stagiairesRepository){
-       $idStagiaire=$_GET["idStagiaire"];
-        $idsession=$session->getId();
-        $objectStagiaire=$stagiairesRepository->findBy(["id" => $idStagiaire]);
-        var_dump($objectStagiaire);
-        echo $idsession ; die();
-       
+    #[Route('/session/{id}/{idStagiaire} ' , name:'addStagiaire_session')]
+    public function addStagiaire(SessionRepository $SessionRepository,Session $session,ProgrammeRepository $programme, StagiaireRepository $stagiairesRepository, $idStagiaire,EntityManagerInterface $entityManager){
+        $id=$session->getId();
+
+        $stagiaire =  $stagiairesRepository->findOneBy(['id' => $idStagiaire]);//pour trouver l'objet stagiaire
+        
         $session->addStagiaire($stagiaire);
-       $stagiaire->addSession($session);
-       
-       
+        $stagiaire->addSession($session);
+        
+        $entityManager->persist($session, $stagiaire);
+        $entityManager->flush();
 
 
 
-       $resultatProgramme=$programme->findBy(['session' => "$session"] );
-        $stagiaire= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
+
+        $resultatProgramme=$programme->findBy(['session' => $session] );
+        $stagiaires= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
+        $stagiaireNonInscrits= $SessionRepository->findByStagiairesNotInSession($id);
+        
        return $this->render('session/show.html.twig', [
-        'session'=> $session, 
-        'programmes' => $resultatProgramme,
-        'stagiaires' => $stagiaire 
-    ]);
+            'session'=> $session, 
+            'programmes' => $resultatProgramme,
+            'stagiaires' => $stagiaires ,
+            'stagiaireNonInscrits' => $stagiaireNonInscrits
+        ]);
     }
 
-    public function findByStagiairesNotInSession(int $id)
+    #[Route('/session/{id}/{idStagiaire}/delete ' , name:'deleteStagiaire_session')]
+    public function deleteStagiaire(Session $session, StagiaireRepository $stagiairesRepository, $idStagiaire,ProgrammeRepository $programme,SessionRepository $SessionRepository,EntityManagerInterface $entityManager)
     {
-        $em = $this->getEntityManager(); // get the EntityManager
-        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
+        $id=$session->getId();
+        $stagiaire =  $stagiairesRepository->findOneBy(['id' => $idStagiaire]);
+ //dd($stagiaire);
+        $session->removeStagiaire($stagiaire);
+        $stagiaire->removeSession($session);
+
+        $entityManager->persist($session, $stagiaire);
+        $entityManager->flush();
+
+
+        $resultatProgramme=$programme->findBy(['session' => $session] );
+        $stagiaires= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
+        $stagiaireNonInscrits= $SessionRepository->findByStagiairesNotInSession($id);
+        
+       return $this->render('session/show.html.twig', [
+            'session'=> $session, 
+            'programmes' => $resultatProgramme,
+            'stagiaires' => $stagiaires ,
+            'stagiaireNonInscrits' => $stagiaireNonInscrits
+       ]);
+
     }
+   
 }

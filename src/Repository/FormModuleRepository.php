@@ -21,6 +21,17 @@ class FormModuleRepository extends ServiceEntityRepository
         parent::__construct($registry, FormModule::class);
     }
 
+
+    public function findByCategorie( int $id){
+
+        $em = $this->getEntityManager(); // get the EntityManager
+        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
+
+        $qb ->select('id_categorie') 
+            ->from();
+
+
+    }
 //    /**
 //     * @return FormModule[] Returns an array of FormModule objects
 //     */

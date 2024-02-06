@@ -3,24 +3,35 @@
 {% block title %}Session {% endblock %}
 
 {% block body %}
-<H1> {{ session.intitule  }}</H1>
-{{dump (session)}}
+<h1><strong>{{ session.intitule  }}</strong></h1>
+
+<p> Formateur :{{session.formateur  }} </p><br>
+
+<h3> Stagiaire Inscrit</h3>
+{% for stagiaire in session.stagiaires %}
+<a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}">{{ stagiaire.nom }}  {{ stagiaire.prenom }}</a> <a href="{{ path('deleteStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaire.id}) }}">Desinscrire</a><br>
+{% endfor %}
 {#<p> Formateur:<a>{{formateur.prenom}} {{formateur.nom  }}</a></p>#}
-{{session.formateur  }}
 
 <H2> Programme </H2>
 
 <div class="row">
     <div class="col-sm">
-       Module
+      <strong>Module</strong> 
     </div>
     <div class="col-sm">
-      nb Jour
+    <strong> nb Jour</strong> 
     </div>
 </div>
-{{dump (programmes)}}
-{% for programme in programmes %}
+{% for categorie in categories %}
+    
 
+{{categorie}}
+{% endfor %}
+{% for programme in programmes   %}
+
+
+  
 {# {{programme.module.idCategorie.nomCategorie}} #}
  
 <div class="row">
@@ -33,15 +44,13 @@
     </div>
 </div> 
 
- 
 {% endfor %}
-
-<h3>Stagiaire inscrit</h3>
-{# {{stagiaireNonInscrit}} #}
 
 
 <h3>Stagiaire non inscrit</h3>
-{% for stagiaires in stagiaires %}
-    {{stagiaires}} <a href="{{ path('addStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaires.id}) }}">Ajouter a la sessions</a><br>
-{% endfor %}
+ {% for stagiaire in stagiaireNonInscrits %}
+ <a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}"> {{stagiaire}} </a>
+     <a href="{{ path('addStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaire.id}) }}">Ajouter a la sessions</a><br>
+ {% endfor %}
+
 {% endblock %}
