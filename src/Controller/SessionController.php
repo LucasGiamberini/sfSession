@@ -59,9 +59,9 @@ class SessionController extends AbstractController
 
       //  $categorieProgramme=$module->findby(['categorie_id' => "$idCategorie"]);
         $resultatProgramme=$programmeRepository->findBy(['session' => "$session"] );
-       $categorie=$programmeRepository->findByCategory($id);
+        $formattedResults=$programmeRepository->findByCategory($id);
         
-       dd($categorie);
+     
      
         
         $stagiaire= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
@@ -70,7 +70,9 @@ class SessionController extends AbstractController
             'programmes' => $resultatProgramme,
             'stagiaires' => $stagiaire, 
            'stagiaireNonInscrits' => $stagiaireNonInscrits,
-            'categories' => $categorie
+          //  'categories' => $categorie,
+            'formattedResults' => $formattedResults
+
         ]);
     }
 

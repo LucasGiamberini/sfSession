@@ -32,11 +32,11 @@ class ProgrammeRepository extends ServiceEntityRepository
             ->from('APP\Entity\Programme', 's')
             
             ->innerJoin('s.module', 'mo')
-            ->innerJoin('mo.id_categorie', 'ca')
-            ->where ('s.id = :id')
-            ->setParameter('id', $id);
-           
-
+            ->innerJoin('mo.id_categorie', 'co')
+            ->where ('s.session = :id')
+            ->setParameter('id', $id)
+           // ->setMaxResults(1)
+                            ;
             return $qb->getQuery()->getResult();    
 
 

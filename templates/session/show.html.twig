@@ -23,12 +23,25 @@
     <strong> nb Jour</strong> 
     </div>
 </div>
-{% for categorie in categories %}
-    
 
-{{categorie}}
+  {#}  {{categorie.nomCategorie}} #}
+  {% for formattedResult in formattedResults %}
+    
+  
+  {% for categorie, modules in formattedResult %}
+<tr>
+    <th>{{ dump(categorie.module) }}</th>
+</tr>
+
+{% for module in modules %}
+<tr>
+    <td>{{ module }}</td> {# Assurez-vous d'adapter cela en fonction de la structure de vos objets module #}
+</tr>
+{% endfor %}
+{% endfor %}
 {% endfor %}
 {% for programme in programmes   %}
+
 
 
   
