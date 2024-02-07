@@ -30,8 +30,10 @@ class SessionController extends AbstractController
     }
 
     #[Route('/session/new', name:'new_session')]
-    public function new(Session $session=NULL ,Request $request,EntityManagerInterface $entityManager  ): Response
-    {
+    public function new(Session $session= NULL ,Request $request,EntityManagerInterface $entityManager  ): Response
+    {   
+        $session= new Session();
+
         $form=$this->createForm(AjoutSessionType::class,$session);
 
         $form->handleRequest($request);
@@ -49,8 +51,11 @@ class SessionController extends AbstractController
 
         }
 
-        return $this->render('session/new.html.twig', [ 'formAdd' => $form]);
+        return $this->render('session/new.html.twig', [ 'form' => $form ,
+    'sessionId' => $session->getId()
+ ]);
     }
+
 
     #[Route('/session/{id}/show ' , name:'show_session')]
     public function show ( SessionRepository $SessionRepository,Session $session, ProgrammeRepository $programmeRepository,Programme $programme, FormModuleRepository $module, StagiaireRepository $stagiairesRepository): Response
