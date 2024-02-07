@@ -20,27 +20,43 @@ class ProgrammeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Programme::class);
     }
-    
-    public function findByCategory( int $id){
 
-        $em = $this->getEntityManager(); // get the EntityManager
-        $sub = $em->createQueryBuilder(); // create a new QueryBuilder
-
-        $qb=$sub;
-
-        $qb ->select('s') 
-            ->from('APP\Entity\Programme', 's')
-            
-            ->innerJoin('s.module', 'mo')
-            ->innerJoin('mo.id_categorie', 'co')
-            ->where ('s.session = :id')
-            ->setParameter('id', $id)
-           // ->setMaxResults(1)
-                            ;
-            return $qb->getQuery()->getResult();    
-
+    public function findDistinctCategoriesBySessionId($sessionId)
+    {
+        return $this->createQueryBuilder('s')
+    ->select('c.nomCategorie')
+    ->innerJoin('App\Entity\Programme', 'p', 'WITH', 'p.session = s')
+    ->innerJoin('App\Entity\FormModule', 'f', 'WITH', 'f.id = p.module')
+    ->innerJoin('App\Entity\Categorie', 'c', 'WITH', 'c.id = f.id_categorie')
+    ->where('s.id = :sessionId')
+    ->setParameter('sessionId', $sessionId)
+    ->groupBy('c.id')
+    ->getQuery()
+    ->getResult();
 
     }
+    
+    // public function findByCategory( int $id){
+
+    //     $em = $this->getEntityManager(); // get the EntityManager
+    //     $sub = $em->createQueryBuilder(); // create a new QueryBuilder
+
+    //     $qb=$sub;
+
+    //     $qb ->select('ca.nomCategorie, mo.nomModule') 
+    //         ->from('APP\Entity\Programme', 's')
+            
+    //         ->innerJoin('s.module', 'mo')
+    //         ->innerJoin('mo.id_categorie', 'ca')
+    //         ->where ('s.session = :id')
+    //         ->setParameter('id', $id)
+    //        // ->setMaxResults(1)
+    //                         ;
+    //         return $qb->getQuery()->getResult();    
+
+
+    // }
+   
 //    /**
 //     * @return Programme[] Returns an array of Programme objects
 //     */

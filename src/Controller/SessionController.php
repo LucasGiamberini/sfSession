@@ -59,7 +59,8 @@ class SessionController extends AbstractController
 
       //  $categorieProgramme=$module->findby(['categorie_id' => "$idCategorie"]);
         $resultatProgramme=$programmeRepository->findBy(['session' => "$session"] );
-        $formattedResults=$programmeRepository->findByCategory($id);
+        // $formattedResults=$programmeRepository->findByCategory($id);
+        $formattedResults=$programmeRepository->findDistinctCategoriesBySessionId($id);
         
      
      
@@ -88,7 +89,7 @@ class SessionController extends AbstractController
         $entityManager->persist($session, $stagiaire);
         $entityManager->flush();
 
-
+        $formattedResults=$programme->findDistinctCategoriesBySessionId($id);
 
 
         $resultatProgramme=$programme->findBy(['session' => $session] );
@@ -99,7 +100,8 @@ class SessionController extends AbstractController
             'session'=> $session, 
             'programmes' => $resultatProgramme,
             'stagiaires' => $stagiaires ,
-            'stagiaireNonInscrits' => $stagiaireNonInscrits
+            'stagiaireNonInscrits' => $stagiaireNonInscrits,
+            'formattedResults' => $formattedResults
         ]);
     }
 
@@ -119,12 +121,14 @@ class SessionController extends AbstractController
         $resultatProgramme=$programme->findBy(['session' => $session] );
         $stagiaires= $stagiairesRepository->findBy([], ["nom" => "Asc"]);
         $stagiaireNonInscrits= $SessionRepository->findByStagiairesNotInSession($id);
-        
+        $formattedResults=$programme->findDistinctCategoriesBySessionId($id);
+
        return $this->render('session/show.html.twig', [
             'session'=> $session, 
             'programmes' => $resultatProgramme,
             'stagiaires' => $stagiaires ,
-            'stagiaireNonInscrits' => $stagiaireNonInscrits
+            'stagiaireNonInscrits' => $stagiaireNonInscrits,
+            'formattedResults' => $formattedResults
        ]);
 
     }

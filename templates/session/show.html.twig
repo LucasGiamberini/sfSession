@@ -7,12 +7,17 @@
 
 <p> Formateur :{{session.formateur  }} </p><br>
 
+
+<div id="stagiairesInscrit">
 <h3> Stagiaire Inscrit</h3>
 {% for stagiaire in session.stagiaires %}
 <a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}">{{ stagiaire.nom }}  {{ stagiaire.prenom }}</a> <a href="{{ path('deleteStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaire.id}) }}">Desinscrire</a><br>
 {% endfor %}
 {#<p> Formateur:<a>{{formateur.prenom}} {{formateur.nom  }}</a></p>#}
+</div>
 
+
+<div id="programme">
 <H2> Programme </H2>
 
 <div class="row">
@@ -24,46 +29,40 @@
     </div>
 </div>
 
-  {#}  {{categorie.nomCategorie}} #}
-  {% for formattedResult in formattedResults %}
+
+
+  
+ {% for result in formattedResults %}
+
+
+ <h4>{{result['nomCategorie']}}</h4>
+
     
-  
-  {% for categorie, modules in formattedResult %}
-<tr>
-    <th>{{ dump(categorie.module) }}</th>
-</tr>
+    {% for programme in programmes   %}
+        {% if programme.module.IdCategorie.nomCategorie == result['nomCategorie'] %}
+            
+            <div class="row">
+                <div class="col-sm">
+                    {{ programme.module.nomModule}}
+                
+                </div>
+                <div class="col-sm">
+                    {{ programme.nbJours}}
+                </div>
+            </div> 
+        {% endif %}
+    {% endfor %}
+ {% endfor %}
+    
+</div>
 
-{% for module in modules %}
-<tr>
-    <td>{{ module }}</td> {# Assurez-vous d'adapter cela en fonction de la structure de vos objets module #}
-</tr>
-{% endfor %}
-{% endfor %}
-{% endfor %}
-{% for programme in programmes   %}
-
-
-
-  
-{# {{programme.module.idCategorie.nomCategorie}} #}
- 
-<div class="row">
-    <div class="col-sm">
-        {{ programme.module.nomModule}}
-      
-    </div>
-    <div class="col-sm">
-        {{ programme.nbJours}}
-    </div>
-</div> 
-
-{% endfor %}
-
-
+<div id="stagiaireNonInscrit">
 <h3>Stagiaire non inscrit</h3>
  {% for stagiaire in stagiaireNonInscrits %}
  <a href="{{ path('show_stagiaire', {'id':stagiaire.id})  }}"> {{stagiaire}} </a>
-     <a href="{{ path('addStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaire.id}) }}">Ajouter a la sessions</a><br>
- {% endfor %}
+   <a href="{{ path('addStagiaire_session' , {'id':session.id, 'idStagiaire':stagiaire.id}) }}">Ajouter a la sessions</a><br>
+</div>
+   {% endfor %}
+
 
 {% endblock %}

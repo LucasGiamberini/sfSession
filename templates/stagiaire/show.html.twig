@@ -21,7 +21,7 @@ E-mail : {{stagiaire.email}}<br>
 {% for session in sessions %}
   
    
-   <strong>{{session.intitule}}</strong>  (du {{session.dateDebutFormat}} au {{session.dateFinFormat}}    )
+<a href="{{ path('show_session' , {'id':session.id}) }}">   <strong>{{session.intitule}}</strong></a>  (du {{session.dateDebutFormat}} au {{session.dateFinFormat}}    ) <br>
 {% endfor %} 
 
 {% endblock %}
