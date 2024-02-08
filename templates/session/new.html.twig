@@ -32,11 +32,7 @@
         {# empêche l'apparition d'une légende "programmes", si la collection est vide (en cas de création d'une nouvelle session) #}
         {% do form.programmes.setRendered %}
 
-        {% block javascripts %}
-        {% block importmap %}{{ importmap('app') }}{% endblock %}
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="  crossorigin="anonymous">  </script>
-         <script src="{{ asset('js/gsf.js')}}"></script>           
-                {% endblock %}
+       
 
 
 {{form_end(form)}}
