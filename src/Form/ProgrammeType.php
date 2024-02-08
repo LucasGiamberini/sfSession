@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
@@ -20,10 +21,7 @@ class ProgrammeType extends AbstractType
             ->add('nbJours', IntegerType::class,[
             'label' => 'Durée en Jours' ,
              'attr' => [ 'min' => 1 , 'max' => 100 ]])
-      //      ->add('session',hiddenType::class ,EntityType::class, [
-        //        'class' => Session::class,
-         //   'choice_label' => 'id',
-           // ])
+           ->add('session',HiddenType::class )
             ->add('module', EntityType::class, [
                 'label' => 'module',
                 'class' => FormModule::class,  

@@ -6,6 +6,7 @@
 <h1>Ajouter une session</h1>
 {{form_start(form)}}
 
+{{form_row(form.dateDebut)}}
 <div class="form-group row ">
     <div class="col-form-label col-sm-2">&nbsp;</div>
     <div id="programme-fields-list" class="col-sm-10 remove-collection-widget"
@@ -31,6 +32,11 @@
         {# empêche l'apparition d'une légende "programmes", si la collection est vide (en cas de création d'une nouvelle session) #}
         {% do form.programmes.setRendered %}
 
+        {% block javascripts %}
+        {% block importmap %}{{ importmap('app') }}{% endblock %}
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="  crossorigin="anonymous">  </script>
+         <script src="{{ asset('js/gsf.js')}}"></script>           
+                {% endblock %}
 
 
 {{form_end(form)}}

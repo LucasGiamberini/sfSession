@@ -1,9 +1,10 @@
 // Scripts jQuery / JavaScript généraux
-
+console.log('hello')
 $(document).ready(function() { // Une fois que le document (base.html.twig) HTML/CSS a bien été complètement chargé...
     // add-collection-widget.js : fonction permettant d'ajouter un nouveau bloc "programme" au sein d'une session (pour agrandir la collection)
     $('.add-another-collection-widget').click(function (e) {
         var list = $($(this).attr('data-list-selector'))
+        console.log(list)
         // Récupération du nombre actuel d'élément "programme" dans la collection (à défaut, utilisation de la longueur de la collection)
         var counter = list.data('widget-counter') || list.children().length
         // Récupération de l'identifiant de la session concernée, en cours de création/modification
